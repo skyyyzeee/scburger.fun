@@ -302,8 +302,8 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const BIND_ADDRESS = process.env.BIND_ADDRESS || 'localhost';
+app.listen(PORT, () => {
+  console.log("Server started on port " + PORT);
+});
 
-app.listen(PORT, BIND_ADDRESS, () => {
-  console.log(`Server running at http://${BIND_ADDRESS}:${PORT}`);
 });
