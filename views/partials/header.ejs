@@ -1,0 +1,30 @@
+<header class="site-header">
+  <div class="container">
+    <div class="scb_logo_nav">
+      <a href="/" class="scb_nav_logo" aria-label="scburger.fun">
+        <img src="/images/scb_nav_logo.svg" alt="SCB" class="scb_nav_logo" id="scb_nav_logo">
+      </a>
+    </div>
+    <div class="center-nav">
+      <nav class="navigation">
+        <a href="/about">О проекте</a>
+        <a href="/online">Онлайн</a>
+        <a href="/wiki">Вики</a>
+        <a href="/map">Карта</a>
+      </nav>
+    </div>
+    <div class="auth-actions">
+      <% if (user) { %>
+        <div class="user-profile">
+          <img src="<%= user.avatar %>" alt="Avatar" class="user-avatar">
+          <span class="user-name"><%= user.username %></span>
+          <a href="/logout" class="logout-btn">Выйти</a>
+        </div>
+      <% } else { %>
+        <a href="/auth/discord" class="login-discord">
+          <img src="/images/login_discord.svg" alt="Login Discord" class="login-discord">
+        </a>
+      <% } %>
+    </div>
+  </div>
+</header>

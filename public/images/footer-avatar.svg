@@ -1,0 +1,6 @@
+<!-- Placeholder small avatar for footer -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="8" fill="#F17FA7"/>
+  <circle cx="32" cy="28" r="12" fill="#FFECEF"/>
+  <rect x="20" y="44" width="24" height="8" rx="4" fill="#FDE9EE"/>
+</svg>

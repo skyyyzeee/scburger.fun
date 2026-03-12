@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Онлайн — SCB</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('partials/header', { user: user }) %>
+
+  <main class="container" style="padding-top:28px;padding-bottom:60px;">
+    <div class="online-inner">
+      <h2 style="font-family:Oldtimer,Stengazeta;font-size:28px;color:#fff;margin-bottom:-8px">Статистика сервера</h2>
+      <p style="color:rgba(255,255,255,0.75);margin-bottom:18px">Сводка и статус сервера</p>
+
+      <div class="server-summary">
+        <div class="summary-row">
+        <div class="summary-card">
+          <div class="summary-label">СТАТУС СЕРВЕРА</div>
+          <div class="summary-value"><span class="status-pill <%= isServerUp ? 'online' : 'offline' %>"><%= isServerUp ? 'Онлайн' : 'Офлайн' %></span></div>
+          <div class="summary-sub">Сервер <%= isServerUp ? 'в сети' : 'оффлайн' %></div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-label">НАШЕ КОМЬЮНИТИ</div>
+          <div class="summary-value"><%= (summary && summary.total_players) ? summary.total_players : (topPlayers && topPlayers.length) || 0 %></div>
+          <div class="summary-sub">Присоединились к серверу</div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-label">МАКСИМАЛЬНЫЙ ОНЛАЙН</div>
+          <div class="summary-value"><%= maxOnline || 0 %></div>
+          <div class="summary-sub">Одновременно</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="heading-statistics">Статистика мира</h3>
+    <p style="color:rgba(255,255,255,0.75);margin-bottom:12px">Суммарные данные всех игроков</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value"><%= formatSeconds(summary && summary.total_play_time) %></div>
+        <div class="stat-label">Всего наиграно</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_deaths ? summary.total_deaths : 0 %></div>
+        <div class="stat-label">Смертей</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_player_kills ? summary.total_player_kills : 0 %></div>
+        <div class="stat-label">Убийств игроков</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_mob_kills ? summary.total_mob_kills : 0 %></div>
+        <div class="stat-label">Убийств мобов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_blocks_broken ? summary.total_blocks_broken : 0 %></div>
+        <div class="stat-label">Блоков сломано</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_blocks_placed ? summary.total_blocks_placed : 0 %></div>
+        <div class="stat-label">Блоков поставлено</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_items_crafted ? summary.total_items_crafted : 0 %></div>
+        <div class="stat-label">Предметов скрафчено</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><%= summary && summary.total_chat_messages ? summary.total_chat_messages : 0 %></div>
+        <div class="stat-label">Сообщений в чате</div>
+      </div>
+    </div>
+
+    <h3 class="heading-players">Игроки сервера</h3>
+    <p style="color:rgba(255,255,255,0.75);margin-bottom:12px">Список игроков и их статистика</p>
+
+    <div class="players-row">
+      <% (topPlayers || []).forEach(function(p, idx){ %>
+        <div class="player-card <%= p.isOnline ? 'online' : '' %> <%= idx < 3 ? ('rank-' + (idx+1)) : '' %>">
+          <div class="player-rank">#<%= idx+1 %></div>
+          <div class="player-avatar"><img src="https://mc-heads.net/avatar/<%= encodeURIComponent(p.minecraft_name) %>/64" alt="<%= p.minecraft_name %>"></div>
+          <div class="player-info">
+            <div class="player-name"><%= p.minecraft_name %></div>
+            <div class="player-status"><%= p.isOnline ? 'В сети' : 'Не в сети' %></div>
+            <div class="player-play">Наиграно <span class="playtime"><%= formatSeconds(p.total_play_time) %></span></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

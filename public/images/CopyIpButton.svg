@@ -1,0 +1,11 @@
+<!-- Source: https://schalker.net/landing/CopyIpButton.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#FF7AA2"/>
+      <stop offset="1" stop-color="#C84F7A"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="56" rx="12" fill="url(#g)"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Oldtimer, Stengazeta, sans-serif" font-size="18" fill="#fff">Присоединиться</text>
+</svg>

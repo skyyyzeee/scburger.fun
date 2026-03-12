@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCB - приватный сервер-Minecraft</title>
+    <link rel="icon" href="/images/fav_scb_logo.svg" sizes="256x256">
+    <meta name="theme-color" content="#DD6F44">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('partials/header', { user: user }) %>
+
+  <main class="hero">
+    <div class="container landing-inner">
+      <div class="landing-left">
+        <div class="badges">
+          <span class="badge">1.21.11 · JAVA EDITION</span>
+        </div>
+
+        <h1 class="hero-title">ВЕСЕЛЬЕ. АТМОСФЕРА.</h1>
+        <h2 class="hero-subtitle">SLUT CUNT BURG!</h2>
+
+        <p class="hero-desc">SCB — это приватный сервер Minecraft с необычным геймплеем! 
+          Перед началом игры нужно подать заявку в Discord.</p>
+
+        <% /* Always copy the public domain rather than a local IP */ %>
+        <% var serverIpSafe = 'scburger.fun'; %>
+        <div class="hero-cta">
+          <a href="https://discord.gg/wp8FW9NbWx" class="btn btn-discord">
+            <img src="/images/discord_link.svg" alt="Присоединиться">
+          </a>
+        <button id="copy-ip" class="btn btn-small" data-ip="<%= serverIpSafe %>"><img src="/images/copy_ip_logo.svg" alt="Copy IP" class="btn-icon"><span class="btn-label">Скопировать IP</span></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Family banner: big text left (svg) and player image right (svg) -->
+  <section class="family-banner" role="region" aria-label="SCB Family">
+    <div class="container family-inner">
+      <div class="family-left">
+        <div class="family-text-block">
+          <h2 class="family-title">ПРИСОЕДИНЯЙСЯ К НАМ</h2>
+          <p class="family-subtitle">СТАНЬ ЧАСТЬЮ НАШЕГО СООБЩЕСТВА</p>
+        </div>
+      </div>
+
+      <div class="family-right">
+        <img src="/images/scb_family.svg" alt="SCB players" class="family-players">
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section" aria-label="FAQ">
+    <div class="container">
+      <div class="faq-top">
+        <h2 class="faq-title">Вопрос – Ответ &amp; FAQ</h2>
+      </div>
+
+      <div class="faq-grid">
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/core.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Какое ядро?</h3>
+            <p class="faq-answer">Paper - это высокопроизводительный форк ядра Spigot для серверов Minecraft, созданный в 2016 году командой PaperMC.</p>
+          </div>
+        </article>
+
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/animal.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Какой радиус деспавна мобов?</h3>
+            <p class="faq-answer">Полезно знать тем у кого есть фермы. Радиус — 96 Б. В ванильном майнкрафте 128 Б. Уменьшено из-за соображений оптимизации.</p>
+          </div>
+        </article>
+
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/server.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Характеристики</h3>
+            <p class="faq-answer">Comming soon</p>
+          </div>
+        </article>
+
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/login.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Доступ на SCB</h3>
+            <p class="faq-answer">Наш сервер — это ванильный Minecraft без приватов, лишних плагинов и привилегий. Присоединиться могут все, независимо от типа клиента.</p>
+          </div>
+        </article>
+
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/how_to_start.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Как начать играть?</h3>
+            <p class="faq-answer">Присоединяйтесь в наш Discord и следуйте инструкции в разделе «faq». Там подробно описаны шаги для входа на сервер.</p>
+          </div>
+        </article>
+
+        <article class="faq-card">
+          <img class="faq-icon" src="/images/microphone.svg" alt="icon">
+          <div>
+            <h3 class="faq-question">Есть ли голосовой чат?</h3>
+            <p class="faq-answer">Да — на сервере установлен PlasmoVoice, который позволяет общаться в реальном времени и создаёт более живую атмосферу.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Access / Стоимость доступа (локальный макет) -->
+  <section class="access-section" aria-label="Access">
+    <div class="container">
+      <h2 class="access-heading">Доступ на SCB</h2>
+      <p class="access-lead">Наш сервер — это ванильный Minecraft без привата, лишних плагинов и привилегий. Присоединиться могут все, независимо от типа игры, как с пиратской, так и с лицензионной.</p>
+
+      <div class="access-card">
+        <div class="access-illustration">
+          <img src="/images/access_image.png" alt="players" class="access-illustr-img">
+        </div>
+
+        <div class="access-content">
+          <div class="access-small">СТОИМОСТЬ ДОСТУПА</div>
+          <div class="access-price">БЕСПЛАТНО</div>
+          <div class="access-meta">1.21.11 · Java Edition</div>
+
+          <div class="access-actions">
+            <a href="https://discord.gg/wp8FW9NbWx" class="btn primary" role="button" target="_blank" rel="noopener noreferrer">Присоединиться</a>
+            <button id="copy-ip-2" class="btn secondary" data-ip="<%= serverIpSafe %>">Скопировать IP</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer / нижняя информация -->
+  <%- include('partials/footer') %>
+
+  <div id="copy-toast" class="copy-toast" aria-hidden="true">IP скопирован в буфер</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyBtn = document.getElementById('copy-ip');
+      const toast = document.getElementById('copy-toast');
+      let toastTimer = null;
+      if (!copyBtn) return;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove('visible');
+        void toast.offsetWidth;
+        toast.classList.add('visible');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('visible'), 2200);
+      }
+
+      function fallbackCopyTextToClipboard(text) {
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'absolute';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          const selected = document.getSelection().rangeCount > 0 ? document.getSelection().getRangeAt(0) : null;
+          textarea.select();
+          const successful = document.execCommand('copy');
+          document.body.removeChild(textarea);
+          if (selected) {
+            document.getSelection().removeAllRanges();
+            document.getSelection().addRange(selected);
+          }
+          return successful;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      copyBtn.addEventListener('click', async (e) => {
+        const ip = copyBtn.getAttribute('data-ip') || 'scburger.fun';
+        let ok = false;
+        // try Clipboard API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            await navigator.clipboard.writeText(ip);
+            ok = true;
+          } catch (err) {
+            ok = false;
+          }
+        }
+        // fallback to execCommand
+        if (!ok) {
+          ok = fallbackCopyTextToClipboard(ip);
+        }
+
+        if (ok) {
+          showToast(`IP скопирован в буфер`);
+        } else {
+          showToast('Не удалось скопировать IP');
+        }
+      });
+
+      // second copy button in access card
+      const copyBtn2 = document.getElementById('copy-ip-2');
+      if (copyBtn2) {
+        copyBtn2.addEventListener('click', async (e) => {
+          const ip = copyBtn2.getAttribute('data-ip') || 'scburger.fun';
+          let ok2 = false;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+              await navigator.clipboard.writeText(ip);
+              ok2 = true;
+            } catch (err) { ok2 = false }
+          }
+          if (!ok2) ok2 = fallbackCopyTextToClipboard(ip);
+          if (ok2) showToast('IP скопирован в буфер'); else showToast('Не удалось скопировать IP');
+        });
+      }
+    });
+  </script>
+
+  </body>
+  </html>

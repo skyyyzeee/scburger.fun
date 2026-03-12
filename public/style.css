@@ -1,0 +1,950 @@
+:root{
+    --bg: #141313;
+    --surface: #181717;
+    --card: #131415;
+    --muted: #c9d2d8;
+    --text: #f1f6f9;
+    --accent: #DD6F44;
+    --accent-strong: #c85a35;
+    /* Family banner adjustable variables (defaults for large screens) */
+    --family-margin-top: 20px;
+    --family-margin-bottom: 60px;
+    --family-padding-vertical: 14px;
+    --family-shadow: 0 28px 64px rgba(207,138,61,0.20);
+    --family-text-pad-left: 60px;
+    --family-title-size: 80px;
+    --family-subtitle-size: 50px;
+    --family-right-min-height: 320px;
+    --family-player-height: 820px;
+    --family-player-right: 100px;
+    --family-player-bottom: -150px;
+    --family-subtitle-offset-x: 0px;
+    --family-subtitle-offset-y: 0px;
+    /* Font-weight tokens for UI blocks */
+    --fw-answer:50;
+    --fw-regular: 100;
+    --fw-medium: 300;
+    --fw-bold: 500;
+    /* Heading weight variables (can be overridden) */
+    --hw-statistics: 200; /* "Статистика мира" */
+    --hw-players: 200;   /* "Игроки сервера" */
+}
+
+/* Global toast for copy feedback */
+.copy-toast{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%) translateY(6px);
+    bottom:40px;
+    background:rgba(0,0,0,0.9);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:8px;
+    font-family: "Stengazeta";
+    font-size:12px;
+    opacity:0;
+    pointer-events:none;
+    z-index:9999;
+    transition:opacity 260ms cubic-bezier(.2,.9,.3,1), transform 260ms cubic-bezier(.2,.9,.3,1);
+}
+.copy-toast.visible{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+@font-face {
+    font-family: "Stengazeta";
+    src: local("Stengazeta"),
+        url("fonts/Stengazeta.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Oldtimer";
+    src: local("Oldtimer"),
+        url("fonts/Oldtimer.woff2") format("woff2");
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInTop {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+html{
+    box-sizing:border-box
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body{
+    background:var(--bg);
+    margin: 0;
+    font-family: "Stengazeta", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: weight;
+}
+
+.container {
+    max-width: 2440px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.site-header {
+    background: transparent;
+    padding: 20px 0;
+}
+
+@media (min-width: 1920px) {
+    .site-header {
+        padding: 20px 0px;
+    }
+}
+
+.site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.scb_nav_logo {
+    flex-shrink: 0;
+}
+
+/* tighten header spacing: bring logo and login closer to center nav */
+.scb_logo_nav { margin-right: 10px; }
+.center-nav { flex: 0; margin: 0 12px; }
+.navigation { gap: 20px; }
+.auth-actions { margin-left: 8px; }
+
+.scb_nav_logo {
+    width: 200px;
+    height: auto;
+    transition: transform 0.3s ease;
+    animation: slideInLeft 1s ease-out;
+}
+
+.scb_nav_logo:hover .scb_nav_logo {
+  content: url('/images/scb_nav_logo2.svg');
+}
+
+
+.center-nav {
+    flex: 1;
+    text-align: center;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    animation: slideInTop 1s ease-out 0.5s both;
+}
+
+.navigation a {
+    font-family: "Stengazeta";
+    font-size: 28px;
+    text-decoration: none;
+    color: var(--muted);
+    padding: 10px 20px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.navigation a:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.auth-actions {
+    flex-shrink: 0;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideInRight 1s ease-out;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+}
+
+.user-name {
+    font-family: "Stengazeta";
+    font-size: 18px;
+    color: var(--text);
+}
+
+.logout-btn {
+    font-family: "Stengazeta";
+    font-size: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent-strong);
+}
+
+.login-discord {
+    width: 300px;
+    height: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    animation: slideInRight 1s ease-out;
+}
+
+.login-discord:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 8px rgba(88,101,242,0.5));
+}
+/* same interaction as small button */
+.btn-discord{transition: transform 0.12s ease, box-shadow 0.12s ease;}
+.btn-discord:active{transform: translateY(2px); box-shadow: 0 3px 0 rgba(0,0,0,0.18);} 
+.btn-discord:hover{transform: translateY(-2px);}
+.landing-inner{display:flex;align-items:center;gap:36px}
+@media (max-width:900px){
+    .landing-inner{flex-direction:column}
+    .landing-right{position:static; width:100%; justify-content:center; margin-left:0}
+    .hero-title{font-size:30px}
+}
+.landing-left{flex:1}
+.badges{display:flex;gap:10px;margin-bottom:14px}
+.badge{padding:6px 10px}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .navigation {
+        gap: 20px;
+    }
+    .navigation a {
+        font-size: 24px;
+        padding: 8px 12px;
+    }
+    .scb_nav_logo {
+        width: 180px;
+    }
+    .login-discord {
+        width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .center-nav {
+        margin: 0;
+    }
+    .navigation {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .navigation a {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+    .scb_nav_logo {
+        width: 150px;
+    }
+    .login-discord {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    .site-header {
+        padding: 10px 0;
+    }
+    .navigation a {
+        font-size: 18px;
+        padding: 8px 15px;
+    }
+    .scb_nav_logo {
+        width: 120px;
+    }
+    .login-discord {
+        width: 180px;
+    }
+}
+
+/* Hero styles */
+.hero{
+    position: relative;
+    padding: 60px 0px 80px;
+}
+
+/* align hero with header padding */
+.hero .container{
+    /* move hero block closer to the left under the logo */
+    padding-left: clamp(60px, 10vw, 140px);
+    padding-right: clamp(100px, 25vw, 500px);
+}
+
+@media (min-width: 1920px) {
+    .hero .container {
+        padding-left: 120px;
+        padding-right: 500px;
+    }
+}
+
+.landing-inner{display:flex;align-items:flex-start;gap:36px;animation:slideInLeft 1s ease-out 0.6s both}
+.landing-left{flex:1;max-width:960px}
+
+.badge{
+    background:#3b2b1e; /* dark brown */
+    padding:10px 20px;
+    margin: 10px 0 -10px;
+    border-radius:22px;
+    font-weight:500;
+    color:#e79a3a; /* orange text */
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.hero-title{
+    font-family: "Oldtimer", "Stengazeta", sans-serif;
+    font-size: 120px;
+    line-height: 1.05;
+    color: #ffffff;
+    margin: 1px 0 -5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+.hero-subtitle{
+    font-family: "Oldtimer", "Stengazeta", sans-serif;
+    font-size: 72px;
+    margin: 6px 0 18px;
+    color: #f28b1f; /* orange */
+    text-transform: uppercase;
+    font-weight:700;
+}
+
+.hero-desc{
+    color: rgba(255,255,255,0.75);
+    max-width: 700px;
+    font-size: 24px;
+    margin: 18px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-cta{display:flex;gap:10px;align-items:center;margin-left:0px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;overflow:hidden;box-shadow: 0 6px 0 rgba(0,0,0,0.18);position:relative}
+.btn img{display:block;max-width:100%;height:auto;width:auto}
+.btn-discord{ /* keep for consistency if needed */
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+.btn-small{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:280px;
+    height:50px;
+    background: linear-gradient(180deg, #444444a2 0%, #444444a2 100%);
+    border: 1px solid rgba(0,0,0,0.35);
+    border-radius:14px;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.18), inset 0 2px 0 rgba(255,255,255,0.04);
+    color:#fff;
+    font-family: "Oldtimer", "Stengazeta", sans-serif;
+    font-size:16px;
+    margin: 10px;
+    line-height:1;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    font-weight:400;
+    cursor:pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-small:active{transform: translateY(2px); box-shadow: 0 3px 0 rgba(0,0,0,0.18);} 
+.btn-small img{margin-right:10px;display:block}
+
+/* Position the icon on the left while keeping the label perfectly centered */
+.btn-small{position:relative;padding-left:72px;padding-right:20px}
+.btn-small .btn-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:40px;height:40px}
+.btn-small{display:inline-flex;align-items:center;justify-content:center}
+.btn-small:hover{transform: translateY(-2px);}
+
+/* make discord button behave like small */
+.btn-discord{transition: transform 0.12s ease, box-shadow 0.12s ease;}
+.btn-discord:active{transform: translateY(2px); box-shadow: 0 3px 0 rgba(0,0,0,0.18);} 
+.btn-discord:hover{transform: translateY(-2px);}
+
+/* Scale down for 1920x1080 desktop */
+@media (max-width: 1920px) {
+    .scb_nav_logo{
+        width:140px;
+    }
+    .navigation{
+        gap:20px;
+    }
+    .navigation a{
+        font-size:18px;
+        padding:8px 10px;
+    }
+    .login-discord{
+        width:210px;
+    }
+    .hero-title{
+        font-size:80px;
+        margin:1px 0 -15px;
+    }
+    .hero-subtitle{
+        font-size:48px;
+        margin:4px 0 -10px;
+    }
+    .hero-desc{
+        font-size:16px;
+        max-width:480px;
+        margin:12px 0 8px;
+    }
+    .badge{
+        padding:7px 14px;
+        font-size:14px;
+        margin:8px 0 -8px;
+    }
+    .btn img{
+        width:190px;
+        height:34px;
+    }
+    .btn-copy img{
+        width:190px;
+        height:34px;
+    }
+    .landing-right{
+        width:280px;
+        top:90px;
+        right:15px;
+    }
+}
+
+@media (max-width:1200px){
+    .hero-title{font-size:78px}
+}
+
+
+    .hero-subtitle{font-size:48px}
+    .btn img{width:260px;height:50px}
+
+@media (max-width:900px){
+    .landing-inner{flex-direction:column}
+    .hero-title{font-size:42px}
+    .hero-subtitle{font-size:32px}
+    .btn img{width:220px;height:44px}
+    .hero .container{padding:0 30px}
+}
+/* Label nudges to vertically center the Oldtimer text (adjust per breakpoint) */
+.btn-small .btn-label{display:inline-block;transform:translateY(2px)}
+
+/* Responsive overrides for btn-small to keep text centered and legible */
+@media (max-width: 1920px) {
+    .btn-small {
+        font-size:20px;
+        height:50px;
+        width:250px;
+        padding-left:64px;
+    }
+    .btn-small .btn-icon{width:36px;height:36px;left:16px}
+    .btn-small .btn-label{transform:translateY(3px)}
+}
+
+@media (max-width: 1200px) {
+    .btn-small {
+        font-size:18px;
+        height:48px;
+        width:240px;
+        padding-left:60px;
+    }
+    .btn-small .btn-icon{width:34px;height:34px;left:14px}
+    .btn-small .btn-label{transform:translateY(2px)}
+}
+
+@media (max-width: 900px) {
+    .btn-small {
+        font-size:16px;
+        height:44px;
+        width:220px;
+        padding-left:56px;
+    }
+    .btn-small .btn-icon{width:30px;height:30px;left:12px}
+    .btn-small .btn-label{transform:translateY(1px)}
+}
+
+@media (max-width: 480px) {
+    .btn-small {
+        font-size:14px;
+        height:40px;
+        width:200px;
+        padding-left:48px;
+    }
+    .btn-small .btn-icon{width:26px;height:26px;left:12px}
+    .btn-small .btn-label{transform:translateY(0px)}
+}
+
+/* Family banner (large band with SVG text left and players image right) */
+.family-banner{
+    background: #CF8A3D;
+    margin: var(--family-margin-top) 0 var(--family-margin-bottom);
+    padding: var(--family-padding-vertical) 0;
+    position: relative;
+    overflow: visible;
+    box-shadow: var(--family-shadow);
+}
+.family-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:2}
+.family-left{flex:1;display:flex;align-items:center}
+.family-text-block{max-width:920px;width:100%;padding-left:var(--family-text-pad-left);transform:translateX(var(--family-text-offset-x));}
+.family-title{font-family: "Stengazeta", sans-serif;color:#ffffff;font-size:var(--family-title-size);line-height:0.95;letter-spacing:2px;text-transform:uppercase;margin:0 0 20px;text-shadow:0 4px 0 rgba(0,0,0,0.45)}
+.family-subtitle{font-family: "Stengazeta", sans-serif;color:#ffffff;font-size:var(--family-subtitle-size);margin:10px;text-transform:uppercase;letter-spacing:1px;opacity:0.98;text-shadow:0 4px 0 rgba(0,0,0,0.45);transform: translate(var(--family-subtitle-offset-x), var(--family-subtitle-offset-y));}
+.family-right{flex:1;display:block;position:relative;overflow:visible;min-height:var(--family-right-min-height)}
+.family-players{position:absolute;right:var(--family-player-right);bottom:var(--family-player-bottom);display:block;height:var(--family-player-height);max-width:none;width:auto;pointer-events:none;z-index:3}
+
+@media (max-width: 1920px){
+    :root{
+        --family-text-pad-left: 60px;
+        --family-player-height: 650px;
+        --family-player-right: 80px;
+        --family-player-bottom: -150px;
+        --family-padding-vertical: -30px;
+        --family-margin-top: 50px;
+        --family-margin-bottom: 28px;
+        --family-title-size: 65px;
+        --family-subtitle-size: 35px;
+        --family-text-offset-x: -10px;
+    }
+}
+
+/* Specific adjustments for 1920px+ displays: move subtitle down 10px and reduce banner height by 30px */
+@media (min-width: 1920px) {
+    :root{ --family-subtitle-offset-y: 10px; }
+    .family-title{transform: translateY(25px);} 
+}
+
+@media (max-width: 900px){
+    .family-inner{flex-direction:column;align-items:center;gap:12px}
+    .family-left,.family-right{width:100%;display:flex;justify-content:center}
+    .family-text-block{max-width:560px;margin:0;padding:0 12px}
+    /* switch players to static flow on small screens */
+    .family-players{position:static;height:300px;margin-right:0;transform:none}
+    :root{
+        --family-padding-vertical: 200px;
+        --family-margin-top: 20px;
+        --family-margin-bottom: 20px;
+        --family-title-size: 36px;
+        --family-subtitle-size: 20px;
+        --family-right-min-height: 280px;
+    }
+}
+
+@media (max-width: 480px){
+    .family-text-block{max-width:320px;padding:0 12px}
+    .family-players{position:static;height:160px}
+    :root{
+        --family-padding-vertical: 12px;
+        --family-margin-top: 12px;
+        --family-margin-bottom: 12px;
+        --family-title-size: 22px;
+        --family-subtitle-size: 12px;
+        --family-right-min-height: 160px;
+    }
+}
+
+/* FAQ section styles */
+.faq-section {
+    --faq-gap: 1.25rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.02) 100%);
+    padding: 3.5rem 0;
+    margin-top: 300px; /* отступ от предыдущего блока */
+}
+.faq-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+.faq-title {
+    font-family: "Oldtimer", "Stengazeta", sans-serif;
+    font-size: 2rem;
+    color: #ffffff;
+    margin: 0 0 1rem 0;
+    font-weight: var(--fw-medium);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 0 0.3px rgba(0,0,0,0.05);
+}
+.faq-grid {
+    display: grid;
+    /* wider cards: 2 columns by default to give each card more width */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+@media (min-width: 1400px) {
+    .faq-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.faq-card {
+    background: #e09f7310;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms cubic-bezier(.2,.9,.3,1);
+    will-change: transform, box-shadow;
+    min-height: 160px;
+}
+.faq-card:hover{
+    /* remove vertical lift; apply subtle highlight instead */
+    transform: none;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.16);
+    background: rgba(224,159,115,0.12);
+}
+.faq-card.is-visible{ animation: fadeUp 420ms cubic-bezier(.2,.9,.3,1) both }
+.faq-grid .faq-card.is-visible:nth-child(1){ animation-delay: 120ms }
+.faq-grid .faq-card.is-visible:nth-child(2){ animation-delay: 180ms }
+.faq-grid .faq-card.is-visible:nth-child(3){ animation-delay: 240ms }
+.faq-grid .faq-card.is-visible:nth-child(4){ animation-delay: 300ms }
+.faq-grid .faq-card.is-visible:nth-child(5){ animation-delay: 360ms }
+.faq-grid .faq-card.is-visible:nth-child(6){ animation-delay: 420ms }
+.faq-icon {
+    font-size: 1.85rem;
+    line-height: 1;
+    opacity: 0.95;
+}
+.faq-question {
+    margin: 0;
+    font-size: 1.50rem;
+    color: #ffffff;
+    font-weight: var(--fw-regular);
+}
+.faq-answer {
+    margin: 0.5rem 0 0 0;
+    font-size: 1.30rem;
+    color: #9c9999bb;
+    font-weight: var(--fw-answer);
+    display: block;
+    padding: 0.5rem 0.2rem;
+    border-radius: 10px;
+    line-height: 1.1;
+}
+
+@media (max-width: 900px) {
+    .faq-grid { grid-template-columns: repeat(2, 1fr); }
+    .faq-section { padding: 2rem 0; }
+}
+
+@media (max-width: 600px) {
+    .faq-grid { grid-template-columns: 1fr; }
+    .faq-title { font-size: 1.4rem; }
+}
+
+/* Access section and footer styles */
+.access-section{padding:36px 0 18px;margin-top:28px}
+.access-heading{font-family:Oldtimer, Stengazeta, sans-serif;font-size:48px;color:#fff;text-align:center;margin:0 0 8px;font-weight:var(--fw-bold);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;text-shadow:0 0 0.6px rgba(0,0,0,0.06)}
+.access-lead{font-size:18px;color:rgba(255,255,255,0.8);text-align:center;margin:0 0 22px;max-width:550px;margin-left:auto;margin-right:auto}
+.access-card{position:relative;background:linear-gradient(180deg,#dbb98c 0%, #e9a060 100%);border-radius:18px;padding:28px;display:flex;align-items:center;gap:20px;box-shadow:0 24px 60px rgba(36,28,40,0.45);overflow:visible}
+.access-illustration{flex:0 0 320px;position:relative;pointer-events:none}
+.access-illustr-img{position:relative;right:-40px;height:220px;display:block}
+.access-content{flex:1;padding:12px 18px}
+.access-small{font-size:28px;color:#123;letter-spacing:1px;text-transform:uppercase}
+.access-price{font-family:Oldtimer, Stengazeta, sans-serif;font-size:56px;color:#051225;margin-top:0px;font-weight:var(--fw-bold);text-shadow:0 0 0.6px rgba(0,0,0,0.06)}
+.access-meta{color:rgba(0,0,0,0.55);margin-top:5px}
+.access-actions{margin-top:18px;display:flex;gap:12px;align-items:center;margin-left:-15px}
+
+/* Access card gradient transition on hover */
+.access-card{transition: background 320ms ease, box-shadow 320ms ease, transform 320ms ease}
+.access-card:hover{background: linear-gradient(180deg,#e6b370 0%, #e0ac7d 100%);transform: translateY(-6px);box-shadow:0 36px 90px rgba(36,28,40,0.55)}
+
+/* Access buttons: two plain buttons (primary - orange, secondary - white) */
+.access-actions .btn{
+    height:44px;
+    min-width:190px;
+    padding:0 18px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.18);
+    font-family: "Oldtimer", "Stengazeta", sans-serif;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    cursor:pointer;
+}
+
+.access-actions .btn.primary{
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+    color: #fff;
+    border: 1px solid rgba(0,0,0,0.18);
+    text-decoration: none;
+}
+
+@media (max-width:900px){
+    .access-actions .btn{height:40px;min-width:150px;font-size:14px;padding:0 14px}
+}
+
+@media (max-width:900px){
+    .access-actions .btn,
+    .access-actions .btn-small,
+    .access-actions .btn-join{height:44px;min-width:180px}
+    .access-actions .btn img{height:20px}
+}
+
+@media (max-width: 900px){
+    .access-card{flex-direction:column;align-items:center;padding:18px}
+    .access-illustration{flex:0 0 auto}
+    .access-illustr-img{right:0;height:160px}
+    .access-price{font-size:36px;text-align:center}
+    .access-heading{font-size:32px}
+    .access-actions{margin-left:0;justify-content:center}
+}
+
+/* FAQ top heading area (moved from inline) */
+.faq-top{display:flex;align-items:center;gap:18px;margin-bottom:12px}
+
+/* Access card sizing to match screenshot */
+.access-card{max-width:880px;margin:0 auto;padding:36px;border-radius:20px}
+.access-card{box-shadow: 0 28px 80px rgba(36,28,40,0.5)}
+/* play entrance animation when scrolled into view */
+.access-card.is-visible{ animation: fadeUp 520ms cubic-bezier(.2,.9,.3,1) both }
+.access-illustration{flex:0 0 360px}
+.access-illustr-img{position:relative;right:60px;height:200px;display:block}
+.access-content{padding-left:12px}
+.btn-join img{height:48px;display:block}
+
+/* Footer styles (moved from inline) */
+.site-footer{background:transparent;padding-top:8px;padding-bottom:28px;color:rgba(255,255,255,0.8);}
+.site-footer .footer-container{display:flex;flex-direction:column;gap:8px;align-items:center;padding:22px 0}
+.site-footer .footer-note{color:rgba(255,255,255,0.8);font-size:14px;text-align:center;max-width:960px}
+.site-footer .footer-credit{color:rgba(255,255,255,0.6);font-size:13px;font-weight:var(--fw-regular)}
+.site-footer .footer-note{font-weight:var(--fw-regular)}
+.site-footer .footer-links{display:flex;gap:14px;margin-top:6px}
+.site-footer a{color:rgba(255,255,255,0.85);text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+
+/* Detailed footer bar (rounded translucent block) */
+.footer-bar{
+    max-width:1100px;
+    margin: 100px auto 0px;
+    background: rgba(233, 181, 123, 0.048); /* darker translucent band */
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius:14px;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+}
+.footer-bar.is-visible{ animation: fadeUp 480ms cubic-bezier(.2,.9,.3,1) both; animation-delay: 200ms }
+
+/* 404 page styles (moved from inline) */
+.notfound-page{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:48px}
+.notfound-card{max-width:820px;padding:28px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.02));box-shadow:0 20px 60px rgba(0,0,0,0.6);text-align:center}
+.notfound-title{font-family:Oldtimer,Stengazeta, sans-serif;font-size:68px;margin:6px 0;color:#fff}
+.notfound-url{font-size:20px;color:rgba(255,255,255,0.9);margin:8px 0 18px}
+.notfound-desc{color:rgba(255,255,255,0.8);margin-bottom:22px}
+.notfound-actions{display:flex;gap:12px;justify-content:center}
+
+/* make 404 buttons behave like navigation links on hover (subtle lift + accent) */
+.notfound-actions .btn{
+    transition: transform 0.12s ease, color 120ms ease;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 10px;
+    color: var(--text);
+    text-decoration: none;
+}
+.notfound-actions .btn:hover{transform:translateY(-2px);color:var(--accent)}
+.notfound-actions .btn.primary:hover{box-shadow:none}
+
+@media (max-width:900px){
+    .notfound-card{padding:20px}
+    .notfound-title{font-size:42px}
+}
+
+/* Online page styles */
+.server-summary .summary-row{display:flex;gap:18px;align-items:stretch;flex-wrap:wrap;margin-bottom:18px;justify-content:center}
+.online-inner{max-width:1100px;margin:0 auto;padding:0 14px}
+.summary-card{flex:1 1 320px;max-width:360px;background:rgba(255,255,255,0.02);padding:18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+.summary-label{font-size:16px;color:rgba(255,255,255,0.65);text-transform:uppercase}
+.summary-value{font-family:Oldtimer,Stengazeta;font-size:38px;color:#fff;margin-top:2px}
+.summary-sub{color:rgba(255,255,255,0.75);margin-top:6px}
+
+/* Entrance animations for online page blocks */
+/* Summary cards: slight stagger */
+.summary-card{opacity:0;animation:fadeUp 520ms cubic-bezier(.2,.9,.3,1) both}
+.summary-row .summary-card:nth-child(1){animation-delay:90ms}
+.summary-row .summary-card:nth-child(2){animation-delay:180ms}
+.summary-row .summary-card:nth-child(3){animation-delay:270ms}
+
+/* Stat cards: stagger across the grid */
+.stat-card{opacity:0;animation:fadeUp 420ms cubic-bezier(.2,.9,.3,1) both}
+.stats-grid .stat-card:nth-child(1){animation-delay:120ms}
+.stats-grid .stat-card:nth-child(2){animation-delay:180ms}
+.stats-grid .stat-card:nth-child(3){animation-delay:240ms}
+.stats-grid .stat-card:nth-child(4){animation-delay:300ms}
+.stats-grid .stat-card:nth-child(5){animation-delay:360ms}
+.stats-grid .stat-card:nth-child(6){animation-delay:420ms}
+.stats-grid .stat-card:nth-child(7){animation-delay:480ms}
+.stats-grid .stat-card:nth-child(8){animation-delay:540ms}
+
+/* Player cards: sequential entrance, small lift */
+.players-row .player-card{opacity:0;transform-origin:center left;animation:fadeUp 520ms cubic-bezier(.2,.9,.3,1) both}
+.players-row .player-card:nth-child(1){animation-delay:160ms}
+.players-row .player-card:nth-child(2){animation-delay:240ms}
+.players-row .player-card:nth-child(3){animation-delay:320ms}
+.players-row .player-card:nth-child(4){animation-delay:400ms}
+.players-row .player-card:nth-child(5){animation-delay:480ms}
+.players-row .player-card:nth-child(6){animation-delay:560ms}
+.players-row .player-card:nth-child(7){animation-delay:640ms}
+.players-row .player-card:nth-child(8){animation-delay:720ms}
+.players-row .player-card:nth-child(9){animation-delay:800ms}
+.players-row .player-card:nth-child(10){animation-delay:880ms}
+.players-row .player-card:nth-child(11){animation-delay:960ms}
+.players-row .player-card:nth-child(12){animation-delay:1040ms}
+
+/* Status pill used in server summary */
+.status-pill{font-family:Oldtimer,Stengazeta;font-size:38px}
+.status-pill.online{color:#53d769}
+.status-pill.offline{color:#ff6b6b}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px;max-width:1000px;margin-left:auto;margin-right:auto}
+.stat-card{background:rgba(255,255,255,0.02);padding:18px;border-radius:10px;text-align:center}
+.stat-value{font-family:Oldtimer,Stengazeta;font-size:22px;color:#fff}
+.stat-label{color:rgba(255,255,255,0.7);margin-top:6px}
+
+.players-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0}
+
+/* Section heading classes that use configurable font-weight variables */
+.heading-statistics{font-size:22px;color:#fff;margin-top:24px;margin-bottom:-10px;font-weight:var(--hw-statistics,200)}
+.heading-players{font-size:22px;color:#fff;margin-top:28px;margin-bottom:-10px;font-weight:var(--hw-players,200)}
+
+/* Player card: responsive width in grid */
+.player-card{position:relative;display:flex;align-items:center;gap:14px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));border:1px solid rgba(255,255,255,0.03);width:100%;height:120px;box-shadow:0 12px 40px rgba(0,0,0,0.5);overflow:hidden}
+.player-card.online{box-shadow:0 14px 46px rgba(34,34,34,0.6)}
+
+/* avatar on the left */
+.player-avatar{flex:0 0 auto}
+.player-avatar img{width:40px;height:40px;border-radius:8px;display:block;transform:translateY(-27px)}
+
+.player-info{flex:1 1 auto;display:flex;flex-direction:column;gap:4px;min-width:0}
+.player-name{font-size:20px;font-weight:300;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.player-status{color:rgba(255,255,255,0.65);font-size:15px;}
+
+/* playtime block styled like screenshot */
+.player-play{margin-top:10px;font-size:16px;color:rgba(255,255,255,0.85);margin-left:-55px}
+.player-play .playtime{display:block;color:#eb8d6b;font-weight:500;font-size:16px;margin-top:6px}
+
+/* rank pill positioned top-right */
+.player-rank{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.35);padding:6px 10px;border-radius:999px;color:rgba(255,255,255,0.95);font-weight:800;border:1px solid rgba(255,255,255,0.04);font-size:13px}
+
+/* Top-3 special borders and highlights */
+.player-card.rank-1{border:3px solid #f4c542;box-shadow:0 18px 60px rgba(244,197,66,0.08)}
+.player-card.rank-2{border:2px solid #c5c7ca}
+.player-card.rank-3{border:2px solid #cd7f32}
+
+@media (max-width:1200px){
+    .players-row{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-width:768px){
+    .players-row{grid-template-columns:1fr}
+    .player-card{padding:12px}
+    .player-avatar img{width:56px;height:56px;transform:translateY(-4px)}
+    .player-play .playtime{font-size:16px}
+}
+
+@media (max-width:600px){
+    .players-row{grid-template-columns:1fr;gap:12px}
+}
+
+
+@media (max-width:1000px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:600px){
+    .stats-grid{grid-template-columns:1fr}
+    .summary-card{flex-basis:100%}
+    .player-card{min-width:100%;justify-content:flex-start}
+}
+.footer-left{display:flex;align-items:center;gap:16px}
+.footer-illus img{width:50px;height:auto;display:block}
+.footer-main{max-width:760px}
+.footer-title{font-family:Oldtimer, Stengazeta, sans-serif;font-size:28px;color:#fff;font-weight:var(--fw-bold);display:flex;gap:10px;align-items:center}
+.footer-sub{font-size:14px;color:rgba(255,255,255,0.75);font-weight:var(--fw-medium);margin-left:8px}
+.footer-desc{color:rgba(255,255,255,0.75);font-size:14px;margin-top:6px;max-width:395px}
+.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.footer-icons{display:flex;gap:12px;align-items:center}
+.footer-icons img{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06);padding:6px}
+.footer-credit-compact{color:rgba(255,255,255,0.75);font-size:13px;text-align:right}
+
+@media (max-width:900px){
+    .footer-bar{flex-direction:column;align-items:center;text-align:center}
+    .footer-right{align-items:center}
+    .footer-illus img{width:68px}
+    .footer-title{font-size:22px}
+}

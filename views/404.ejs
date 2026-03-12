@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Страница не найдена — 404</title>
+  <link rel="icon" href="/images/fav_scb_logo.svg" sizes="256x256">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('partials/header', { user: user }) %>
+
+  <main class="notfound-page">
+    <div class="notfound-card">
+      <h1 class="notfound-title">404</h1>
+      <p class="notfound-url">К сожалению, страница не найдена: <strong><%= url %></strong></p>
+      <p class="notfound-desc">Возможно, адрес введён неверно или страница была удалена.</p>
+      <div class="notfound-actions">
+        <a href="/" class="btn primary">На главную</a> 
+      </div>
+    </div>
+  </main>
+  <script>
+    document.getElementById('reload-btn')?.addEventListener('click', () => location.reload());
+  </script>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
